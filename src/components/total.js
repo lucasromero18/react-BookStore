@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 
 
-class Book extends Component {
+class Total extends Component {
     
 }
 
@@ -13,6 +13,4 @@ class Book extends Component {
 
 
 
-
-
-export default Book;
+export default Total;
