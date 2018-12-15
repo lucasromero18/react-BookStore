@@ -4,13 +4,15 @@ import Nav from'./components/navbar.js'
 import Search from './components/search.js'
 import BookList from'./components/BookList.js'
 import Cart from './components/Cart.js'
-import Total from './components/total.js'
 import Footer from'./components/Footer.js'
+import { Container, Row, Col } from 'reactstrap';
 
 class App extends Component {
   state = {
     CartItems: [],
-    books: []
+    books: [],
+    total: 0 ,
+    filteredBook: ' '
   }
 
   async componentDidMount () {
@@ -19,14 +21,38 @@ class App extends Component {
     this.setState({books: json})
   }
 
+  filterBookSearch = (e) => {
+    this.setState ({                              // does the books title contain e.target.value?
+      filteredBook: e.target.value
+    })
+  }
+
+  addBookToCart = (id) => {
+    const individualBook = this.state.books.filter(book => book.id === id)
+    console.log(individualBook)
+    this.setState(prevState => {
+      let CartItems = this.state.CartItems
+      for(let i = 0; i < this.state.books.length; i++){
+        if(this.state.books[i].id === id){
+          CartItems.push(this.state.books[i])
+        }
+      }
+      return {CartItems};
+    })
+    setTimeout(()=>{
+      console.log(this.state);
+    }, 1000)
+}
+
   render() {
-    console.log(this.state.books)
     return (
       <>
       <Nav />
-      <Search />
-      <BookList books={this.state.books}/>
-      <Cart />
+      <Search filterBookSearch={this.filterBookSearch}/>
+      <Row>
+        <BookList books={this.state.books.filter(book => book.title.includes(this.state.filteredBook))} addBookToCart={this.addBookToCart}/> 
+        <Cart CartItems={this.state.CartItems} />
+      </Row>
       <Footer />
       </>
     );
