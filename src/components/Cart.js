@@ -25,7 +25,9 @@ class Cart extends Component {
             <div style={{width: '30%', marginLeft: '30%'}}>
             <h1 style={cartLabel.styles}>Books In Cart</h1>
             {newCartBook}
-            <h3 style={total.styles}>Total: </h3>
+            <h3 style={total.styles}>Total: {this.props.CartItems.reduce((accumulator, book) => {
+            return accumulator + book.price
+            }, 0)} </h3>
             </div>
         )
     }
